@@ -6,6 +6,7 @@ export const AuthContextAll = createContext(null)
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     const providerGoogle = new GoogleAuthProvider();
     const googlePopupLogin = () => {
@@ -13,22 +14,23 @@ const AuthProvider = ({ children }) => {
     }
 
     const createUser = (email, password) => {
+        setLoading(true)
         return createUserWithEmailAndPassword(auth, email, password)
     }
     const updateNamePhoto = (name, img) => {
+        setLoading(true)
         return updateProfile(auth.currentUser, {
             displayName: name, photoURL: img
         })
     }
 
     const loginUser = (email, password) => {
+        setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
     }
 
-
-
-
     const logOut = () => {
+        setLoading(true)
         return signOut(auth)
     }
 
@@ -36,6 +38,7 @@ const AuthProvider = ({ children }) => {
         const unSubscribe = onAuthStateChanged(auth, (getUser)=> {
             console.log("Im observing on", getUser);
             setUser(getUser)
+            setLoading(false)
         })
         return ()=> {
             unSubscribe()
@@ -49,6 +52,7 @@ const AuthProvider = ({ children }) => {
         logOut, 
         updateNamePhoto,
         loginUser,
+        loading
      }
     return (
         <AuthContextAll.Provider value={authValue}>

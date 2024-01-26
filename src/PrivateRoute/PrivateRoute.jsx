@@ -3,7 +3,15 @@ import GetAuth from "../AuthProvider/GetAuth";
 import PropTypes from "prop-types";
 
 const PrivateRoute = ({ children }) => {
-  const { user } = GetAuth();
+  const { user, loading } = GetAuth();
+  if (loading) {
+    return (
+      <div className="flex justify-center">
+        <span className="loading loading-dots loading-lg"></span>
+      </div>
+    );
+  }
+
   if (user) {
     return children;
   } else {

@@ -1,6 +1,35 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import GetAuth from "../../AuthProvider/GetAuth";
+import toast from "react-hot-toast";
 
 const Register = () => {
+
+  const {createUser, updateNamePhoto} = GetAuth()
+  const navigateTo = useNavigate()
+
+  const handleRegister = e => {
+    e.preventDefault()
+    const name = e.target.name.value
+    const email = e.target.email.value
+    const password = e.target.password.value
+    const img = e.target.img.value
+    if(password.length < 6){
+      toast.error("Password must at least be 6 character or more")
+      return
+    }
+    createUser(email, password)
+    .then(res => {
+      console.log(res.user, "success reg");
+      updateNamePhoto(name, img)
+      .then(console.log("update name img success"))
+      .catch(err => console.log(err.message))
+      navigateTo("/")
+    })
+    .catch(err => {
+      console.log(err.message)
+    })
+  }
+
   return (
     <>
       <div className="hero bg-base-200">
@@ -13,7 +42,7 @@ const Register = () => {
             </p>
           </div>
           <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <form>
+            <form onSubmit={handleRegister}>
               <div className="card-body">
                 <div className="form-control">
                   <label className="label">

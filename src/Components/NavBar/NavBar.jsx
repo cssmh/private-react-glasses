@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import GetAuth from "../../AuthProvider/GetAuth";
 
 const Menus = () => {
   const links = ["products", "about", "contact", "blog"];
@@ -14,8 +15,17 @@ const Menus = () => {
     </>
   );
 };
+
+// NAv from here
 const NavBar = () => {
-  const user = false;
+  const { user, logOut } = GetAuth();
+
+  const handleLogout = () => {
+    logOut()
+    .then(console.log("logout success"))
+    .catch(err => console.log(err.message))
+  }
+
   return (
     <>
       <div className="navbar bg-base-100">
@@ -44,10 +54,7 @@ const NavBar = () => {
               <Menus />
             </ul>
           </div>
-          <Link
-            to="/"
-            className="btn btn-ghost font-bold normal-case text-3xl"
-          >
+          <Link to="/" className="btn btn-ghost font-bold normal-case text-3xl">
             GLASSES
           </Link>
         </div>
@@ -62,7 +69,7 @@ const NavBar = () => {
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
-                  <img src="https://i.ibb.co/y0yrnYQ/1681283571946.jpg" />
+                  <img src={user.photoURL} />
                 </div>
               </label>
               <ul
@@ -70,18 +77,16 @@ const NavBar = () => {
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <button className="btn btn-sm  btn-ghost">Farhan</button>
+                  <button className="btn btn-sm btn-ghost">{user.displayName}</button>
                 </li>
                 <li>
-                  <button className="btn btn-sm  btn-ghost">Logout</button>
+                  <button onClick={handleLogout} className="btn btn-sm btn-ghost">Logout</button>
                 </li>
               </ul>
             </div>
           ) : (
             <Link to="/login">
-              <button className="btn btn-sm btn-ghost">
-                Login
-              </button>
+              <button className="btn btn-sm btn-ghost">Login</button>
             </Link>
           )}
         </div>

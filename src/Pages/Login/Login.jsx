@@ -59,7 +59,7 @@ const Login = () => {
                     Create an account
                   </Link>
                 </label>
-                <SocialLogin />
+                <SocialLogin></SocialLogin>
               </div>
             </form>
           </div>

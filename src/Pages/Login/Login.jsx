@@ -1,7 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "./SocialLogin";
+import GetAuth from "../../AuthProvider/GetAuth";
+import toast from "react-hot-toast";
 
 const Login = () => {
+
+  const { loginUser } = GetAuth()
+  const navigateTo = useNavigate()
+
+  const handleLogin = e => {
+    e.preventDefault()
+    const email = e.target.email.value
+    const password = e.target.password.value
+
+    loginUser(email, password)
+    .then(()=>{
+      console.log("success login")
+      toast.success("Successfully logged in")
+      navigateTo("/")
+    })
+    .catch(err => console.log(err.message))
+  }
+
   return (
     <>
       <div className="hero min-h-[90vh] bg-base-200">
@@ -14,7 +34,7 @@ const Login = () => {
             </p>
           </div>
           <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <form>
+            <form onSubmit={handleLogin}>
               <div className="card-body pb-1">
                 <div className="form-control">
                   <label className="label">

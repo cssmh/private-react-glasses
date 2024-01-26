@@ -17,7 +17,7 @@ const Menus = () => {
       {user && (
         <li>
           <Link to={"/profile"} className="btn btn-sm btn-ghost">
-            Profile
+            my Profile
           </Link>
         </li>
       )}
@@ -74,7 +74,7 @@ const NavBar = () => {
         </div>
 
         <div className="navbar-end">
-          {user?.email ? (
+          {user ? (
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">

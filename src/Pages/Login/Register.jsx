@@ -21,8 +21,8 @@ const Register = () => {
     .then(res => {
       console.log(res.user, "success reg");
       updateNamePhoto(name, img)
-      .then(console.log("update name img success"))
-      .catch(err => console.log(err.message))
+      .then(toast.success("update name img success also reg"))
+      .catch(err => toast.error(err.message))
       navigateTo("/")
     })
     .catch(err => {

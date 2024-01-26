@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import GetAuth from "../../AuthProvider/GetAuth";
 
 const Menus = () => {
+  const { user } = GetAuth();
+
   const links = ["products", "about", "contact", "blog"];
   return (
     <>
@@ -12,6 +14,13 @@ const Menus = () => {
           </Link>
         </li>
       ))}
+      {user && (
+        <li>
+          <Link to={"/profile"} className="btn btn-sm btn-ghost">
+            Profile
+          </Link>
+        </li>
+      )}
     </>
   );
 };
@@ -22,9 +31,9 @@ const NavBar = () => {
 
   const handleLogout = () => {
     logOut()
-    .then(console.log("logout success"))
-    .catch(err => console.log(err.message))
-  }
+      .then(console.log("logout success"))
+      .catch((err) => console.log(err.message));
+  };
 
   return (
     <>
@@ -77,10 +86,17 @@ const NavBar = () => {
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <button className="btn btn-sm btn-ghost">{user.displayName}</button>
+                  <button className="btn btn-sm btn-ghost">
+                    {user.displayName}
+                  </button>
                 </li>
                 <li>
-                  <button onClick={handleLogout} className="btn btn-sm btn-ghost">Logout</button>
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-sm btn-ghost"
+                  >
+                    Logout
+                  </button>
                 </li>
               </ul>
             </div>

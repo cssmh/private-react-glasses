@@ -2,9 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "./SocialLogin";
 import GetAuth from "../../AuthProvider/GetAuth";
 import toast from "react-hot-toast";
+import { useRef } from "react";
 
 const Login = () => {
-  const { loginUser } = GetAuth();
+  const { loginUser, forgotPass } = GetAuth();
   const navigateTo = useNavigate();
 
   const handleLogin = (e) => {
@@ -21,6 +22,19 @@ const Login = () => {
       .catch((err) => {
         toast.error(err.message);
       });
+  };
+
+  const useRefer = useRef(null);
+  const handleForgotPassword = () => {
+    const email = useRefer.current.value;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast.error("Enter a valid email first");
+      return;
+    } else {
+      forgotPass(email)
+      .then(toast.success("Verification email sent!"))
+      .catch(err => toast.error(err.message))
+    }
   };
 
   return (
@@ -42,6 +56,7 @@ const Login = () => {
                     <span className="label-text">Email</span>
                   </label>
                   <input
+                    ref={useRefer}
                     type="email"
                     name="email"
                     placeholder="Email"
@@ -61,7 +76,11 @@ const Login = () => {
                     required
                   />
                   <label className="label">
-                    <a href="#" className="label-text-alt link link-hover">
+                    <a
+                      onClick={handleForgotPassword}
+                      href="#"
+                      className="label-text-alt link link-hover"
+                    >
                       Forgot password?
                     </a>
                   </label>

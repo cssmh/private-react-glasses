@@ -4,23 +4,24 @@ import GetAuth from "../../AuthProvider/GetAuth";
 import toast from "react-hot-toast";
 
 const Login = () => {
+  const { loginUser } = GetAuth();
+  const navigateTo = useNavigate();
 
-  const { loginUser } = GetAuth()
-  const navigateTo = useNavigate()
-
-  const handleLogin = e => {
-    e.preventDefault()
-    const email = e.target.email.value
-    const password = e.target.password.value
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
 
     loginUser(email, password)
-    .then(()=>{
-      console.log("success login")
-      toast.success("Successfully logged in")
-      navigateTo("/")
-    })
-    .catch(err => console.log(err.message))
-  }
+      .then(() => {
+        console.log("success login");
+        toast.success("Successfully logged in");
+        navigateTo("/");
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
 
   return (
     <>

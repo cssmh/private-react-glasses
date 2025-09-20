@@ -11,7 +11,7 @@ function Root() {
         <Outlet />
       </div>
       <Footer />
-      <Toaster/>
+      <Toaster />
     </div>
   );
 }

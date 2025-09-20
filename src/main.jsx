@@ -37,12 +37,20 @@ const router = createBrowserRouter([
       },
       {
         path: "product/:id",
-        element: <PrivateRoute><ProductDetail /></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <ProductDetail />
+          </PrivateRoute>
+        ),
         loader: async ({ params }) => fetch(`${url}/${params.id}`),
       },
       {
         path: "profile",
-        element: <PrivateRoute><Profile /></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
       },
       {
         path: "about",
